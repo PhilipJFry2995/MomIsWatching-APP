@@ -4,9 +4,26 @@
              xmlns:local="clr-namespace:MomIsWatching"
              x:Class="MomIsWatching.MainPage">
 
-  <Button Text="Do not push"
-           VerticalOptions="Center"
-           HorizontalOptions="Center"
-          />
-  
+  <RelativeLayout x:Name="relativeView" HorizontalOptions="Center"
+                  BackgroundColor="#181b23">
+  <Button x:Name="unlockButton"
+						Margin="0,80,0,0"
+	          Text="SOS!"
+						FontSize="25"
+						TextColor="White"
+						FontAttributes="Bold"
+						Image="unlocked.png"
+						HeightRequest="300"
+						WidthRequest="300"
+						ContentLayout="Bottom"
+						HorizontalOptions="Center"
+						BorderRadius="150"
+						BorderColor="#00ff00"
+						BorderWidth="5"
+						BackgroundColor="#181b23"
+						Opacity="0.9"
+						Clicked="OnButtonClicked"
+						IsVisible="true" />
+  </RelativeLayout>
+
 </ContentPage>
