@@ -29,7 +29,7 @@ namespace MomIsWatching.Droid
             string package = "{"
                 + "\"deviceId\":" + "\"" + Android.Provider.Settings.Secure.GetString(Forms.Context.ContentResolver, Android.Provider.Settings.Secure.AndroidId) + "\","
                 + "\"location\":" + "\"" + position.Latitude.ToString().Replace(',', '.') + ";" + position.Longitude.ToString().Replace(',', '.') + "\","
-                + "\"charge\":" + CrossBattery.Current.RemainingChargePercent
+                + "\"charge\":" + CrossBattery.Current.RemainingChargePercent + ","
                 + "\"isSos\":" + "1}";
             Log.Debug("tag", "Package:" + package);
             websocket.Send(package);

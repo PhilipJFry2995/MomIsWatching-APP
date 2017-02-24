@@ -5,7 +5,7 @@
              x:Class="MomIsWatching.MainPage">
 
   <RelativeLayout x:Name="relativeView" HorizontalOptions="Center"
-                  BackgroundColor="#181b23">
+                  >
   <Button x:Name="unlockButton"
 						Margin="0,80,0,0"
 	          Text="SOS!"

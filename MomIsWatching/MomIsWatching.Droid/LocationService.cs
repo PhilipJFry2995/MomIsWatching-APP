@@ -47,13 +47,13 @@ namespace MomIsWatching.Droid
 
         private async void getCoordinates()
         {
-            
             Toast.MakeText(Forms.Context, "Gettings gps position...", ToastLength.Short).Show();
             position = await CrossGeolocator.Current.GetPositionAsync(10000);
 
             Toast.MakeText(Forms.Context, "Sending coordinates to server...", ToastLength.Short).Show();
 
-            websocket = new WebSocket("ws://momiswatching.azurewebsites.net/Subscriptions/DeviceSubscriptionHandler.ashx"); // ?deviceId=...
+            websocket = new WebSocket("ws://momiswatching.azurewebsites.net/Subscriptions/DeviceSubscriptionHandler.ashx?deviceId="
+                + deviceId); // ?deviceId=...
             websocket.Opened += new EventHandler(websocket_Opened);
             websocket.Open();
 
@@ -68,7 +68,7 @@ namespace MomIsWatching.Droid
             string package = "{"
                 + "\"deviceId\":" + "\"" + deviceId + "\","
                 + "\"location\":" + "\"" + position.Latitude.ToString().Replace(',', '.') + ";" + position.Longitude.ToString().Replace(',', '.') + "\","
-                + "\"charge\":" + CrossBattery.Current.RemainingChargePercent
+                + "\"charge\":" + CrossBattery.Current.RemainingChargePercent + ","
                 + "\"isSos\":" + "0}";
             Log.Debug("tag", "Package:" + package);
             websocket.Send(package);
