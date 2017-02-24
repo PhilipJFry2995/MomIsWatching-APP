@@ -13,27 +13,31 @@ namespace MomIsWatching
 {
     public partial class MainPage : ContentPage
     {
+        private ISocketHandler handler;
+
         public MainPage()
         {
             InitializeComponent();
 
             StartService();
         }
-
         
         async void OnButtonClicked(object sender, EventArgs args)
         {
             //ILocationService service = DependencyService.Get<ILocationService>();
             //service.startService();
             //buttonAnimate(4);
+
             var results = await CrossGeolocator.Current.GetPositionAsync(10000);
-            ISocketHandler handler = DependencyService.Get<ISocketHandler>();
+            if(handler == null)
+            {
+                handler = DependencyService.Get<ISocketHandler>();
+            }
             handler.sendSocketInfo(results);
         }
 
         async void StartService()
         {
-            //ws://momiswatching.azurewebsites.net/Subscriptions/DeviceSubscriptionHandler.ashx?device_id=fsdfs323fsdfs3sd
             try
             {
                 var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
@@ -43,7 +47,6 @@ namespace MomIsWatching
                     {
                         await DisplayAlert("Need location", "Gunna need that location", "OK");
                     }
-
                     var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Location });
                     status = results[Permission.Location];
                 }
@@ -52,12 +55,6 @@ namespace MomIsWatching
                 {
                     ILocationService service = DependencyService.Get<ILocationService>();
                     service.startService();
-
-                    //var results = await CrossGeolocator.Current.GetPositionAsync(10000);
-
-                    //ISocketHandler handler = DependencyService.Get<ISocketHandler>();
-                    //handler.sendSocketInfo(results);
-
                 }
                 else if (status != PermissionStatus.Unknown)
                 {
