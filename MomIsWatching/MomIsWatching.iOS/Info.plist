@@ -58,7 +58,7 @@
 	<array>
 		<string>location</string>
 	</array>
-	<key>UIApplicationExitsOnSuspend</key>
-	<false/>
+	<key>NSLocationUsageDescription</key>
+	<string>Mom wants to know your locatoin</string>
 </dict>
 </plist>
