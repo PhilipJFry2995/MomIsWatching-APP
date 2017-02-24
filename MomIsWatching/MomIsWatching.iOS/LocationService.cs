@@ -1,31 +1,45 @@
-using MomIsWatching.iOS;
-using Plugin.Geolocator.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using WebSocket4Net;
-using Security;
-using Foundation;
-using Plugin.Battery;
+﻿using System;
 using System.Security.Cryptography;
+using System.Text;
+using Foundation;
+using MomIsWatching.iOS;
+using Plugin.Battery;
+using Plugin.Geolocator;
+using Plugin.Geolocator.Abstractions;
+using Security;
+using WebSocket4Net;
 
-[assembly: Xamarin.Forms.Dependency(typeof(SocketHandler))]
+[assembly: Xamarin.Forms.Dependency(typeof(LocationService))]
 namespace MomIsWatching.iOS
 {
-    class SocketHandler : ISocketHandler
+	public class LocationService : ILocationService
 	{
-		WebSocket websocket;
-		Position position;
+		private WebSocket websocket;
+		private Position position;
 
-		public void sendSocketInfo(Position position)
+		public void startService()
 		{
-			this.position = position;
-			websocket = new WebSocket("ws://momiswatching.azurewebsites.net/Subscriptions/DeviceSubscriptionHandler.ashx?deviceId=" +
-				GetIdentifier()); // ?deviceId=...
-			websocket.Opened += new EventHandler(websocket_Opened);
+			//CrossGeolocator.Current.AllowsBackgroundUpdates = true;
+			//CrossGeolocator.Current.PositionChanged += (sender, e) =>
+			// {
+			//	 position = e.Position;
+			//	 sendSocketInfo();
+			// };
+
+		}
+
+		public void stopService()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void sendSocketInfo()
+		{
+			websocket = new WebSocket("ws://momiswatching.azurewebsites.net/Subscriptions/DeviceSubscriptionHandler.ashx?deviceId=" + GetIdentifier()); // ?deviceId=...
+			websocket.Opened += websocket_Opened;
 			websocket.Open();
 		}
+
 		private void websocket_Opened(object sender, EventArgs e)
 		{
 			//{ 'deviceId': 'blabla', 'location': '32.32;12.12', 'charge': 42, 'isSos': 0 }

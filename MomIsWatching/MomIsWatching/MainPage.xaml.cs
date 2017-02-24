@@ -8,7 +8,6 @@ using Plugin.Geolocator;
 using System.Diagnostics;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-using Java.Lang;
 
 namespace MomIsWatching
 {
@@ -103,7 +102,7 @@ namespace MomIsWatching
                         circleImg.FadeTo(0, 900)
                     );
 
-                    Thread.Sleep(300);
+                    //Thread.Sleep(300);
                 }
 
                 Device.BeginInvokeOnMainThread(() =>
