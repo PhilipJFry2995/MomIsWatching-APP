@@ -35,6 +35,7 @@ namespace MomIsWatching.iOS
 			deviceId = GetIdentifier();
 			websocket = new WebSocket("ws://momiswatching.azurewebsites.net/Subscriptions/DeviceSubscriptionHandler.ashx?deviceId=" + deviceId); // ?deviceId=...
 			websocket.Open();
+			websocket.MessageReceived += MessageReceiver;
 			interval = 5;
 
 			Manager = new LocationManager();
@@ -42,6 +43,14 @@ namespace MomIsWatching.iOS
 
             return base.FinishedLaunching(app, options);
         }
+
+		private void MessageReceiver(object sender, EventArgs e)
+		{
+			var arguments = (MessageReceivedEventArgs)e;
+			interval = int.Parse(arguments.Message);
+
+			Console.WriteLine("Message:" + arguments.Message);
+		}
 
 		public string GetIdentifier()
 		{
