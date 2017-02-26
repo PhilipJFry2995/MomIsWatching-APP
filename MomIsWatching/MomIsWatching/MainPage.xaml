@@ -1,29 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:MomIsWatching"
-             x:Class="MomIsWatching.MainPage">
+             x:Class="MomIsWatching.MainPage"
+			 BackgroundColor="#232733">
+  <ContentPage.Padding>
+    <OnPlatform x:TypeArguments="Thickness"
+                iOS="20, 40, 20, 20"
+                Android="20, 20, 20, 20"
+                WinPhone="20, 20, 20, 20" />
+  </ContentPage.Padding>
+  <ContentPage.Content>
+    <StackLayout x:Name="mainView"
+       Orientation="Vertical" Spacing="0">
 
-  <RelativeLayout x:Name="relativeView" HorizontalOptions="Center"
-                  >
-  <Button x:Name="unlockButton"
+      <Label Text="Mom is watching!" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="40" TextColor="#c9c9c9" Margin="0,60,0,0"/>
+      
+      <RelativeLayout x:Name="relativeView" HorizontalOptions="Center">
+
+        <Button x:Name="unlockButton"
 						Margin="0,80,0,0"
 	          Text="SOS!"
-						FontSize="25"
+						FontSize="20"
 						TextColor="White"
 						FontAttributes="Bold"
-						Image="unlocked.png"
 						HeightRequest="300"
 						WidthRequest="300"
 						ContentLayout="Bottom"
 						HorizontalOptions="Center"
 						BorderRadius="150"
-						BorderColor="#00ff00"
+						BorderColor="#0971c4"
 						BorderWidth="5"
 						BackgroundColor="#181b23"
+            Clicked="OnButtonClicked"
 						Opacity="0.9"
-						Clicked="OnButtonClicked"
 						IsVisible="true" />
-  </RelativeLayout>
 
+      </RelativeLayout>
+    </StackLayout>
+  </ContentPage.Content>
 </ContentPage>
