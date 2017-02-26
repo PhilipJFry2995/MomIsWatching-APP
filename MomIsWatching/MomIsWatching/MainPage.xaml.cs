@@ -27,12 +27,9 @@ namespace MomIsWatching
             unlockButton.IsEnabled = false;
             unlockButton.TextColor = Color.Gray;
             //ButtonAnimate(4);
-            var parentAnimation = new Animation();
-            var scaleUpAnimation = new Animation(v => unlockButton.Scale = v, 1, 1.2, Easing.SpringIn);
-            var scaleDownAnimation = new Animation(v => unlockButton.Scale = v, 1.2, 1, Easing.SpringOut);
-            parentAnimation.Add(0, 0.5, scaleUpAnimation);
-            parentAnimation.Add(0.5, 1, scaleDownAnimation);
-            parentAnimation.Commit(this, "ChildAnimations", 16, 4000, null, (v, c) => SetIsEnabledButtonState(true, false));
+
+            animate();
+
             try
             {
                 var results = await CrossGeolocator.Current.GetPositionAsync();
@@ -47,11 +44,31 @@ namespace MomIsWatching
             catch (System.Exception e) { Debug.WriteLine("Mom isn't comming"); Debug.WriteLine(e.Message); }
             unlockButton.IsEnabled = true;
             unlockButton.TextColor = Color.White;
+            this.AbortAnimation("SimpleAnimation");
+        }
+
+        void animate()
+        {
+            if (unlockButton.IsEnabled)
+            {
+                unlockButton.AbortAnimation("animation");
+                return;
+            }
+            var a = new Animation();
+            var scaleUpAnimation = new Animation(v => unlockButton.Scale = v, 1, 1.2, Easing.SpringIn);
+            var scaleDownAnimation = new Animation(v => unlockButton.Scale = v, 1.2, 1, Easing.SpringOut);
+            a.Add(0, 0.5, scaleUpAnimation);
+            a.Add(0.5, 1, scaleDownAnimation);
+            a.Commit(unlockButton, "animation", 16, 4000, null, (d, f) =>
+            {
+                System.Diagnostics.Debug.WriteLine("ANIMATION ALL");
+                animate();
+            });
         }
 
         private void SetIsEnabledButtonState(bool v1, bool v2)
         {
-            this.AbortAnimation("SimpleAnimation");
+           
         }
 
         async void RequestPermission()

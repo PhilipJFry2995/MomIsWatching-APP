@@ -34,7 +34,7 @@
             Clicked="OnButtonClicked"
 						Opacity="0.9"
 						IsVisible="true" />
-
+        
       </RelativeLayout>
     </StackLayout>
   </ContentPage.Content>
