@@ -142,6 +142,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomButtonRenderer.cs" />
     <Compile Include="LocationUpdateReceiver.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />
