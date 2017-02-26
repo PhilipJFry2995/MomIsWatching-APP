@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Plugin.Geolocator;
 using System.Diagnostics;
-using Java.IO;
-using Java.Lang;
+
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using Java.Lang;
 
 namespace MomIsWatching
 {
@@ -26,17 +26,32 @@ namespace MomIsWatching
         {
             unlockButton.IsEnabled = false;
             unlockButton.TextColor = Color.Gray;
-            ButtonAnimate(4);
-
-            var results = await CrossGeolocator.Current.GetPositionAsync(10000);
-            if(_handler == null)
+            //ButtonAnimate(4);
+            var parentAnimation = new Animation();
+            var scaleUpAnimation = new Animation(v => unlockButton.Scale = v, 1, 1.2, Easing.SpringIn);
+            var scaleDownAnimation = new Animation(v => unlockButton.Scale = v, 1.2, 1, Easing.SpringOut);
+            parentAnimation.Add(0, 0.5, scaleUpAnimation);
+            parentAnimation.Add(0.5, 1, scaleDownAnimation);
+            parentAnimation.Commit(this, "ChildAnimations", 16, 4000, null, (v, c) => SetIsEnabledButtonState(true, false));
+            try
             {
-                _handler = DependencyService.Get<ISocketHandler>();
-            }
-            _handler.sendSocketInfo(results);
+                var results = await CrossGeolocator.Current.GetPositionAsync();
+                if (_handler == null)
+                {
+                    _handler = DependencyService.Get<ISocketHandler>();
+                }
+                _handler.sendSocketInfo(results);
 
+                
+            }
+            catch (System.Exception e) { Debug.WriteLine("Mom isn't comming"); Debug.WriteLine(e.Message); }
             unlockButton.IsEnabled = true;
             unlockButton.TextColor = Color.White;
+        }
+
+        private void SetIsEnabledButtonState(bool v1, bool v2)
+        {
+            this.AbortAnimation("SimpleAnimation");
         }
 
         async void RequestPermission()

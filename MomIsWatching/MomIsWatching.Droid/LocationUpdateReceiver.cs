@@ -7,6 +7,7 @@ using Plugin.Geolocator;
 using Android.Util;
 using Plugin.Battery;
 using Xamarin.Forms;
+using System;
 
 namespace MomIsWatching.Droid
 {
@@ -23,8 +24,10 @@ namespace MomIsWatching.Droid
         {
             if (CrossGeolocator.Current.IsGeolocationAvailable)
             {
-                var position = await CrossGeolocator.Current.GetPositionAsync(10000);
-
+                try
+                {
+                    var position = await CrossGeolocator.Current.GetPositionAsync();
+                
                 string package = "{ "
                                  + "\"DeviceId\":" + "\"" + MainActivity.DeviceId + "\","
                                  + "\"Location\":" + "\"" +
@@ -35,6 +38,8 @@ namespace MomIsWatching.Droid
                 Log.Debug("tag", "Package:" + package);
 
                 MainActivity.Websocket.Send(package);
+                }
+                catch (Exception e) { Log.Debug("mytag", "BABAX"); }
             }
             else
             {
