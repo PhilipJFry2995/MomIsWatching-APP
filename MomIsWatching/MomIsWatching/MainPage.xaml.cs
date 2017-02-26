@@ -5,9 +5,9 @@ using Xamarin.Forms;
 using Plugin.Geolocator;
 using System.Diagnostics;
 using Java.IO;
+using Java.Lang;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-using Java.Lang;
 
 namespace MomIsWatching
 {

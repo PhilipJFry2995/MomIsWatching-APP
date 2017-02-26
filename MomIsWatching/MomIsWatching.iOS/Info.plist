@@ -48,5 +48,17 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleShortVersionString</key>
 	<string></string>
+	<key>CFBundleName</key>
+	<string>MomIsWatching</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>New Entry</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>New Entry</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
+	<key>NSLocationUsageDescription</key>
+	<string>Mom wants to know your locatoin</string>
 </dict>
 </plist>

@@ -88,7 +88,6 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="IOSDevice.cs" />
     <Compile Include="SocketHandler.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -98,6 +97,8 @@
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork@2x" />
     <None Include="packages.config" />
+    <Compile Include="LocationManager.cs" />
+    <Compile Include="LocationUpdatedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -158,10 +159,16 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="Plugin.Battery.Abstractions">
+      <HintPath>..\..\packages\Xam.Plugin.Battery.2.1.1\lib\Xamarin.iOS10\Plugin.Battery.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Battery">
+      <HintPath>..\..\packages\Xam.Plugin.Battery.2.1.1\lib\Xamarin.iOS10\Plugin.Battery.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MomIsWatching\MomIsWatching.csproj">
-      <Project>{72ace7fd-df0e-4e55-83b4-7afd117d8faa}</Project>
+      <Project>{500FC4E1-2494-4DDF-8336-375E8B80BC83}</Project>
       <Name>MomIsWatching</Name>
     </ProjectReference>
   </ItemGroup>
