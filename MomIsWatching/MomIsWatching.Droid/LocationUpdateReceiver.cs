@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Globalization;
 
-using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 
 using Plugin.Geolocator;
@@ -28,16 +21,26 @@ namespace MomIsWatching.Droid
 
         private async void publishCoordinates()
         {
-            var position = await CrossGeolocator.Current.GetPositionAsync(10000);
-            
-            string package = "{ "
-                + "\"deviceId\":" + "\"" + MainActivity.deviceId + "\","
-                + "\"location\":" + "\"" + position.Latitude.ToString().Replace(',', '.') + ";" + position.Longitude.ToString().Replace(',', '.') + "\","
-                + "\"charge\":" + CrossBattery.Current.RemainingChargePercent + ","
-                + "\"isSos\":" + "0 }";
-            Log.Debug("tag", "Package:" + package);
+            if (CrossGeolocator.Current.IsGeolocationAvailable)
+            {
+                var position = await CrossGeolocator.Current.GetPositionAsync(10000);
 
-            MainActivity.websocket.Send(package);
+                string package = "{ "
+                                 + "\"DeviceId\":" + "\"" + MainActivity.DeviceId + "\","
+                                 + "\"Location\":" + "\"" +
+                                 position.Latitude.ToString(CultureInfo.InvariantCulture).Replace(',', '.') + ";" +
+                                 position.Longitude.ToString(CultureInfo.InvariantCulture).Replace(',', '.') + "\","
+                                 + "\"Charge\":" + CrossBattery.Current.RemainingChargePercent + ","
+                                 + "\"IsSos\":" + "0 }";
+                Log.Debug("tag", "Package:" + package);
+
+                MainActivity.Websocket.Send(package);
+            }
+            else
+            {
+                Log.Debug("tag", "GPS is not active");
+            }
+            
         }
     }
 }

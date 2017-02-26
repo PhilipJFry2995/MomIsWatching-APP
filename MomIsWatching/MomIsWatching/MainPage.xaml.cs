@@ -1,43 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Plugin.Geolocator;
 using System.Diagnostics;
+using Java.IO;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Java.Lang;
 
 namespace MomIsWatching
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage
     {
-        private ISocketHandler handler;
+        private ISocketHandler _handler;
 
         public MainPage()
         {
             InitializeComponent();
 
-            StartService();
+            RequestPermission();
         }
         
         async void OnButtonClicked(object sender, EventArgs args)
         {
-            //ILocationService service = DependencyService.Get<ILocationService>();
-            //service.startService();
-            //buttonAnimate(4);
+            unlockButton.IsEnabled = false;
+            unlockButton.TextColor = Color.Gray;
+            ButtonAnimate(4);
 
             var results = await CrossGeolocator.Current.GetPositionAsync(10000);
-            if(handler == null)
+            if(_handler == null)
             {
-                handler = DependencyService.Get<ISocketHandler>();
+                _handler = DependencyService.Get<ISocketHandler>();
             }
-            handler.sendSocketInfo(results);
+            _handler.sendSocketInfo(results);
+
+            unlockButton.IsEnabled = true;
+            unlockButton.TextColor = Color.White;
         }
 
-        async void StartService()
+        async void RequestPermission()
         {
             try
             {
@@ -51,13 +53,7 @@ namespace MomIsWatching
                     var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Location });
                     status = results[Permission.Location];
                 }
-
-                if (status == PermissionStatus.Granted)
-                {
-                    ILocationService service = DependencyService.Get<ILocationService>();
-                    service.startService();
-                }
-                else if (status != PermissionStatus.Unknown)
+                if (status != PermissionStatus.Unknown)
                 {
                     await DisplayAlert("Location Denied", "Can not continue, try again.", "OK");
                 }
@@ -68,7 +64,7 @@ namespace MomIsWatching
             }
         }
 
-        void buttonAnimate(int count)
+        void ButtonAnimate(int count)
         {
             Task.Run(() =>
             {
@@ -99,8 +95,8 @@ namespace MomIsWatching
                         circleImg.ScaleTo(4, 1000),
                         circleImg.FadeTo(0, 900)
                     );
-
                     Thread.Sleep(300);
+                    Debug.WriteLine("Sleeeeeeeeeeeeeeeeeeeeeeping");
                 }
 
                 Device.BeginInvokeOnMainThread(() =>

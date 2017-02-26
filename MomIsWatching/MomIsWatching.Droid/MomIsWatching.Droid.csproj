@@ -147,7 +147,6 @@
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceStarter.cs" />
     <Compile Include="SocketHandler.cs" />
   </ItemGroup>
   <ItemGroup>
